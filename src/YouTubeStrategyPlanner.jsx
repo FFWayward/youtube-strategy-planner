@@ -148,45 +148,50 @@ const YouTubeStrategyPlanner = () => {
     doc.text(`Created: ${new Date().toLocaleDateString()}`, margin, yPosition);
     yPosition += 20;
 
-    // Helper function to add sections
-    const addSection = (title, content, isArray = false) => {
-      if (yPosition > 250) {
+// Helper function to add sections
+const addSection = (title, content, isArray = false) => {
+  if (yPosition > 250) {
+    doc.addPage();
+    yPosition = 40;
+  }
+  
+  doc.setFontSize(14);
+  doc.setFont(undefined, 'bold');
+  doc.setTextColor(194, 175, 255); // Wayward purple #c2afff
+  
+  // Clean the title text to avoid encoding issues
+  const cleanTitle = title.replace(/[^\x00-\x7F]/g, "");
+  doc.text(cleanTitle, margin, yPosition);
+  yPosition += 8;
+  
+  doc.setFontSize(11);
+  doc.setFont(undefined, 'normal');
+  doc.setTextColor(17, 17, 17); // #111111
+  
+  if (isArray && Array.isArray(content)) {
+    content.forEach(item => {
+      if (yPosition > 270) {
         doc.addPage();
         yPosition = 40;
       }
-      
-      doc.setFontSize(14);
-      doc.setFont(undefined, 'bold');
-      doc.setTextColor(194, 175, 255); // Wayward purple #c2afff
-      doc.text(title, margin, yPosition);
-      yPosition += 8;
-      
-      doc.setFontSize(11);
-      doc.setFont(undefined, 'normal');
-      doc.setTextColor(17, 17, 17); // #111111
-      
-      if (isArray && Array.isArray(content)) {
-        content.forEach(item => {
-          if (yPosition > 270) {
-            doc.addPage();
-            yPosition = 40;
-          }
-          doc.text(`• ${item}`, margin + 5, yPosition);
-          yPosition += 6;
-        });
-      } else {
-        const lines = doc.splitTextToSize(content || 'Not specified', pageWidth - 2 * margin);
-        lines.forEach(line => {
-          if (yPosition > 270) {
-            doc.addPage();
-            yPosition = 40;
-          }
-          doc.text(line, margin, yPosition);
-          yPosition += 6;
-        });
+      const cleanItem = String(item).replace(/[^\x00-\x7F]/g, "");
+      doc.text(`• ${cleanItem}`, margin + 5, yPosition);
+      yPosition += 6;
+    });
+  } else {
+    const cleanContent = String(content || 'Not specified').replace(/[^\x00-\x7F]/g, "");
+    const lines = doc.splitTextToSize(cleanContent, pageWidth - 2 * margin);
+    lines.forEach(line => {
+      if (yPosition > 270) {
+        doc.addPage();
+        yPosition = 40;
       }
-      yPosition += 12;
-    };
+      doc.text(line, margin, yPosition);
+      yPosition += 6;
+    });
+  }
+  yPosition += 12;
+};
 
     // Add all sections
 addSection('My Why', formData.channelWhy);
