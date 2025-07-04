@@ -1203,12 +1203,4 @@ const GoalInput = ({ goals, onAdd, onRemove }) => {
   );
 };
 
-export default YouTubeStrategyPlanner;={(e) => updateNestedData('targetAudience', 'age', e.target.value)}
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Primary Gender</label>
-                <select
-                  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-400"
-                  value={formData.targetAudience.gender}
-                  onChange
+export default YouTubeStrategyPlanner;
