@@ -508,6 +508,8 @@ const YouTubeStrategyPlanner = () => {
 
     return actionPlan;
   };
+
+  const generatePDF = async () => {
     // Import jsPDF dynamically to avoid SSR issues
     const { jsPDF } = await import('jspdf');
     
@@ -562,7 +564,10 @@ const YouTubeStrategyPlanner = () => {
       doc.setFontSize(14);
       doc.setFont(undefined, 'bold');
       doc.setTextColor(194, 175, 255); // Wayward purple #c2afff
-      doc.text(title, margin, yPosition);
+      
+      // Clean the title text to avoid encoding issues
+      const cleanTitle = title.replace(/[^\x00-\x7F]/g, "");
+      doc.text(cleanTitle, margin, yPosition);
       yPosition += 8;
       
       doc.setFontSize(11);
@@ -573,13 +578,15 @@ const YouTubeStrategyPlanner = () => {
         content.forEach(item => {
           if (yPosition > 270) {
             doc.addPage();
-            yPosition = 30;
+            yPosition = 40;
           }
-          doc.text(`• ${item}`, margin + 5, yPosition);
+          const cleanItem = String(item).replace(/[^\x00-\x7F]/g, "");
+          doc.text(`• ${cleanItem}`, margin + 5, yPosition);
           yPosition += 6;
         });
       } else {
-        const lines = doc.splitTextToSize(content || 'Not specified', pageWidth - 2 * margin);
+        const cleanContent = String(content || 'Not specified').replace(/[^\x00-\x7F]/g, "");
+        const lines = doc.splitTextToSize(cleanContent, pageWidth - 2 * margin);
         lines.forEach(line => {
           if (yPosition > 270) {
             doc.addPage();
@@ -593,16 +600,22 @@ const YouTubeStrategyPlanner = () => {
     };
 
     // Add all sections
-    addSection('🎯 My Why', formData.channelWhy);
-    addSection('📊 Target Audience', `Age: ${formData.targetAudience.age}\nGender: ${formData.targetAudience.gender}\nLocation: ${formData.targetAudience.location}\nProblems they face: ${formData.targetAudience.problems}`);
-    addSection('🎬 Niche & Category', `Category: ${formData.category}\nSpecific Niche: ${formData.nicheTopic}\nSkills: ${formData.skills}`);
-    addSection('📺 Channel Details', `Name Ideas: ${formData.channelName}\nDescription: ${formData.channelDescription}\nUpload Schedule: ${formData.uploadSchedule}`);
-    addSection('📱 Social Media Links', `Instagram: ${formData.socialLinks.instagram}\nTwitter: ${formData.socialLinks.twitter}\nFacebook: ${formData.socialLinks.facebook}\nWebsite: ${formData.socialLinks.website}`);
-    addSection('🎥 Content Types', formData.videoTypes, true);
-    addSection('📋 Content Pillars', formData.contentPillars, true);
-    addSection('💰 Monetization Methods', formData.monetizationMethods, true);
-    addSection('🎯 Goals & Milestones', formData.goals, true);
-    addSection('🏁 Competition Analysis', formData.competition);
+    addSection('My Why', formData.channelWhy);
+    addSection('Target Audience', `Age: ${formData.targetAudience.age}\nGender: ${formData.targetAudience.gender}\nLocation: ${formData.targetAudience.location}\nProblems they face: ${formData.targetAudience.problems}`);
+    addSection('Niche & Category', `Category: ${formData.category}\nSpecific Niche: ${formData.nicheTopic}\nSkills: ${formData.skills}`);
+    addSection('Channel Details', `Name Ideas: ${formData.channelName}\nDescription: ${formData.channelDescription}\nUpload Schedule: ${formData.uploadSchedule}`);
+    addSection('Social Media Links', `Instagram: ${formData.socialLinks.instagram}\nTwitter: ${formData.socialLinks.twitter}\nFacebook: ${formData.socialLinks.facebook}\nWebsite: ${formData.socialLinks.website}`);
+    addSection('Content Types', formData.videoTypes, true);
+    addSection('Content Pillars', formData.contentPillars, true);
+    addSection('Monetization Methods', formData.monetizationMethods, true);
+    addSection('Goals & Milestones', formData.goals, true);
+    addSection('Competition Analysis', formData.competition);
+
+    // Add action plan sections to PDF
+    const actionPlan = generateActionPlan();
+    actionPlan.forEach(section => {
+      addSection(section.title, section.items.join('\n• '), false);
+    });
 
     // Footer with Wayward branding
     const pageCount = doc.internal.getNumberOfPages();
@@ -610,7 +623,7 @@ const YouTubeStrategyPlanner = () => {
       doc.setPage(i);
       doc.setFontSize(8);
       doc.setTextColor(150, 150, 150);
-      doc.text('Created with Wayward Creator Community', margin, doc.internal.pageSize.height - 15);
+      doc.text('Created with the Wayward YouTube Strategy Planner', margin, doc.internal.pageSize.height - 15);
       doc.text('WaywardCreatorCommunity.com', margin, doc.internal.pageSize.height - 10);
       doc.setTextColor(194, 175, 255); // Purple page numbers
       doc.text(`${i} / ${pageCount}`, pageWidth - margin - 15, doc.internal.pageSize.height - 10);
@@ -648,14 +661,6 @@ const YouTubeStrategyPlanner = () => {
                   className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-400"
                   placeholder="e.g., 25-35"
                   value={formData.targetAudience.age}
-                  onChange={(e) => updateNestedData('targetAudience', 'age', e.target.value)}
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Primary Gender</label>
-                <select
-                  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500"
-                  value={formData.targetAudience.gender}
                   onChange={(e) => updateNestedData('targetAudience', 'gender', e.target.value)}
                 >
                   <option value="">Select...</option>
@@ -670,7 +675,7 @@ const YouTubeStrategyPlanner = () => {
               <label className="block text-sm font-medium text-gray-700 mb-2">Target Location</label>
               <input
                 type="text"
-                className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500"
+                className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-400"
                 placeholder="e.g., United States, Global, English-speaking countries"
                 value={formData.targetAudience.location}
                 onChange={(e) => updateNestedData('targetAudience', 'location', e.target.value)}
@@ -680,7 +685,7 @@ const YouTubeStrategyPlanner = () => {
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">What problems does your audience face?</label>
               <textarea
-                className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500"
+                className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-400"
                 rows="3"
                 placeholder="Describe the main challenges your target audience faces..."
                 value={formData.targetAudience.problems}
@@ -691,7 +696,7 @@ const YouTubeStrategyPlanner = () => {
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">Upload Schedule</label>
               <select
-                className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500"
+                className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-400"
                 value={formData.uploadSchedule}
                 onChange={(e) => updateFormData('uploadSchedule', e.target.value)}
               >
@@ -714,7 +719,7 @@ const YouTubeStrategyPlanner = () => {
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">What are you good at? List your skills and expertise</label>
               <textarea
-                className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500"
+                className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-400"
                 rows="3"
                 placeholder="List your skills, hobbies, professional expertise..."
                 value={formData.skills}
@@ -725,7 +730,7 @@ const YouTubeStrategyPlanner = () => {
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">YouTube Category</label>
               <select
-                className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500"
+                className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-400"
                 value={formData.category}
                 onChange={(e) => updateFormData('category', e.target.value)}
               >
@@ -740,7 +745,7 @@ const YouTubeStrategyPlanner = () => {
               <label className="block text-sm font-medium text-gray-700 mb-2">Specific Niche Topic</label>
               <input
                 type="text"
-                className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500"
+                className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-400"
                 placeholder="e.g., Home workouts for busy moms, Tech reviews for seniors, etc."
                 value={formData.nicheTopic}
                 onChange={(e) => updateFormData('nicheTopic', e.target.value)}
@@ -750,7 +755,7 @@ const YouTubeStrategyPlanner = () => {
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">Competition Analysis</label>
               <textarea
-                className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500"
+                className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-400"
                 rows="4"
                 placeholder="List 3-5 similar channels and what makes you different..."
                 value={formData.competition}
@@ -769,7 +774,7 @@ const YouTubeStrategyPlanner = () => {
               <label className="block text-sm font-medium text-gray-700 mb-2">Channel Name Ideas</label>
               <input
                 type="text"
-                className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500"
+                className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-400"
                 placeholder="Keep it short, memorable, and related to your niche"
                 value={formData.channelName}
                 onChange={(e) => updateFormData('channelName', e.target.value)}
@@ -779,7 +784,7 @@ const YouTubeStrategyPlanner = () => {
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">Channel Description (About Section)</label>
               <textarea
-                className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500"
+                className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-400"
                 rows="4"
                 placeholder="Describe what your channel is about and include relevant keywords..."
                 value={formData.channelDescription}
@@ -792,7 +797,7 @@ const YouTubeStrategyPlanner = () => {
                 <label className="block text-sm font-medium text-gray-700 mb-2">Instagram Handle</label>
                 <input
                   type="text"
-                  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500"
+                  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-400"
                   placeholder="@yourusername"
                   value={formData.socialLinks.instagram}
                   onChange={(e) => updateNestedData('socialLinks', 'instagram', e.target.value)}
@@ -802,7 +807,7 @@ const YouTubeStrategyPlanner = () => {
                 <label className="block text-sm font-medium text-gray-700 mb-2">X (Twitter) Handle</label>
                 <input
                   type="text"
-                  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500"
+                  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-400"
                   placeholder="@yourusername"
                   value={formData.socialLinks.twitter}
                   onChange={(e) => updateNestedData('socialLinks', 'twitter', e.target.value)}
@@ -815,7 +820,7 @@ const YouTubeStrategyPlanner = () => {
                 <label className="block text-sm font-medium text-gray-700 mb-2">Facebook Page</label>
                 <input
                   type="text"
-                  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500"
+                  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-400"
                   placeholder="facebook.com/yourpage"
                   value={formData.socialLinks.facebook}
                   onChange={(e) => updateNestedData('socialLinks', 'facebook', e.target.value)}
@@ -825,7 +830,7 @@ const YouTubeStrategyPlanner = () => {
                 <label className="block text-sm font-medium text-gray-700 mb-2">Website URL</label>
                 <input
                   type="text"
-                  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500"
+                  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-400"
                   placeholder="https://yourwebsite.com"
                   value={formData.socialLinks.website}
                   onChange={(e) => updateNestedData('socialLinks', 'website', e.target.value)}
@@ -855,7 +860,7 @@ const YouTubeStrategyPlanner = () => {
                           removeFromArray('videoTypes', formData.videoTypes.indexOf(type));
                         }
                       }}
-                      className="text-red-500 focus:ring-red-500"
+                      className="text-purple-500 focus:ring-purple-500"
                     />
                     <span className="text-sm">{type}</span>
                   </label>
@@ -894,7 +899,7 @@ const YouTubeStrategyPlanner = () => {
                           removeFromArray('monetizationMethods', formData.monetizationMethods.indexOf(method));
                         }
                       }}
-                      className="text-red-500 focus:ring-red-500"
+                      className="text-purple-500 focus:ring-purple-500"
                     />
                     <span>{method}</span>
                   </label>
@@ -910,6 +915,38 @@ const YouTubeStrategyPlanner = () => {
                 <li>• Affiliate marketing can start immediately with relevant products</li>
                 <li>• Always disclose sponsored content and affiliate links</li>
               </ul>
+            </div>
+          </div>
+        );
+
+      case 5:
+        return (
+          <div className="space-y-6">
+            <h2 className="text-2xl font-bold text-gray-800">Goals & Milestones</h2>
+            
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">Set Your Goals</label>
+              <GoalInput 
+                goals={formData.goals}
+                onAdd={(goal) => addToArray('goals', goal)}
+                onRemove={(index) => removeFromArray('goals', index)}
+              />
+            </div>
+
+            <div className="bg-blue-50 p-6 rounded-lg">
+              <h3 className="text-xl font-semibold text-blue-800 mb-4">📋 Your Channel Strategy Summary</h3>
+              <div className="space-y-3 text-sm">
+                <div><strong>Niche:</strong> {formData.nicheTopic || 'Not specified'}</div>
+                <div><strong>Target Audience:</strong> {formData.targetAudience.age} year olds, {formData.targetAudience.gender}, {formData.targetAudience.location}</div>
+                <div><strong>Upload Schedule:</strong> {formData.uploadSchedule || 'Not specified'}</div>
+                <div><strong>Content Types:</strong> {formData.videoTypes.join(', ') || 'None selected'}</div>
+                <div><strong>Monetization:</strong> {formData.monetizationMethods.join(', ') || 'None selected'}</div>
+              </div>
+            </div>
+
+            <div className="bg-purple-50 p-4 rounded-lg">
+              <h3 className="font-semibold text-purple-800 mb-2">🚀 What's Next?</h3>
+              <p className="text-sm text-purple-700">Ready to see your personalized action plan? Click "Next" to get step-by-step instructions tailored to YOUR strategy!</p>
             </div>
           </div>
         );
@@ -979,56 +1016,6 @@ const YouTubeStrategyPlanner = () => {
             )}
           </div>
         );
-        return (
-          <div className="space-y-6">
-            <h2 className="text-2xl font-bold text-gray-800">Goals & Milestones</h2>
-            
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Set Your Goals</label>
-              <GoalInput 
-                goals={formData.goals}
-                onAdd={(goal) => addToArray('goals', goal)}
-                onRemove={(index) => removeFromArray('goals', index)}
-              />
-            </div>
-
-            <div className="bg-blue-50 p-6 rounded-lg">
-              <h3 className="text-xl font-semibold text-blue-800 mb-4">📋 Your Channel Strategy Summary</h3>
-              <div className="space-y-3 text-sm">
-                <div><strong>Niche:</strong> {formData.nicheTopic || 'Not specified'}</div>
-                <div><strong>Target Audience:</strong> {formData.targetAudience.age} year olds, {formData.targetAudience.gender}, {formData.targetAudience.location}</div>
-                <div><strong>Upload Schedule:</strong> {formData.uploadSchedule || 'Not specified'}</div>
-                <div><strong>Content Types:</strong> {formData.videoTypes.join(', ') || 'None selected'}</div>
-                <div><strong>Monetization:</strong> {formData.monetizationMethods.join(', ') || 'None selected'}</div>
-              </div>
-            </div>
-
-            <div className="bg-green-50 p-4 rounded-lg">
-              <h3 className="font-semibold text-green-800 mb-2">🎯 Next Steps</h3>
-              <ul className="text-sm text-green-700 space-y-1">
-                <li>1. Download your strategy PDF using the button below</li>
-                <li>2. Create your YouTube channel with the planned name and description</li>
-                <li>3. Design channel art and choose an attractive profile picture</li>
-                <li>4. Create your first 3-5 videos before launching</li>
-                <li>5. Set up your social media accounts</li>
-                <li>6. Plan your first month of content</li>
-                <li>7. Start building your audience through the strategies in the book</li>
-              </ul>
-            </div>
-
-            {isFormComplete() && (
-              <div className="bg-blue-50 border border-blue-200 p-4 rounded-lg">
-                <div className="flex items-center space-x-3">
-                  <Download className="text-blue-600" size={20} />
-                  <div>
-                    <h3 className="font-semibold text-blue-800">Ready to Download!</h3>
-                    <p className="text-sm text-blue-600">Your strategy is complete. Click "Download My Strategy PDF" to get your personalized plan.</p>
-                  </div>
-                </div>
-              </div>
-            )}
-          </div>
-        );
 
       default:
         return null;
@@ -1056,7 +1043,7 @@ const YouTubeStrategyPlanner = () => {
             <div 
               key={index}
               className={`flex flex-col items-center min-w-0 flex-1 ${
-                index <= currentStep ? 'text-red-600' : 'text-gray-400'
+                index <= currentStep ? 'text-purple-600' : 'text-gray-400'
               }`}
             >
               <div 
@@ -1181,12 +1168,12 @@ const GoalInput = ({ goals, onAdd, onRemove }) => {
           value={newGoal}
           onChange={(e) => setNewGoal(e.target.value)}
           placeholder="e.g., Reach 1,000 subscribers in 6 months"
-          className="flex-1 p-2 border border-gray-300 rounded focus:ring-2 focus:ring-red-500"
+          className="flex-1 p-2 border border-gray-300 rounded focus:ring-2 focus:ring-purple-400"
           onKeyPress={(e) => e.key === 'Enter' && handleAdd()}
         />
         <button
           onClick={handleAdd}
-          className="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700 transition-colors"
+          className="px-4 py-2 bg-gradient-to-r from-purple-400 to-purple-300 text-white rounded hover:from-purple-500 hover:to-purple-400 transition-all duration-200"
         >
           <Plus size={16} />
         </button>
@@ -1197,7 +1184,7 @@ const GoalInput = ({ goals, onAdd, onRemove }) => {
             <span>{goal}</span>
             <button
               onClick={() => onRemove(index)}
-              className="text-red-600 hover:text-red-800"
+              className="text-purple-500 hover:text-purple-700"
             >
               <Trash2 size={16} />
             </button>
@@ -1208,4 +1195,12 @@ const GoalInput = ({ goals, onAdd, onRemove }) => {
   );
 };
 
-export default YouTubeStrategyPlanner;
+export default YouTubeStrategyPlanner;={(e) => updateNestedData('targetAudience', 'age', e.target.value)}
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Primary Gender</label>
+                <select
+                  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-400"
+                  value={formData.targetAudience.gender}
+                  onChange
