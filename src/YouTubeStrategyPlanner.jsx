@@ -189,16 +189,17 @@ const YouTubeStrategyPlanner = () => {
     };
 
     // Add all sections
-   addSection('🎯 My Why', formData.channelWhy);
-addSection('📊 Target Audience', `Age: ${formData.targetAudience.age}\nGender: ${formData.targetAudience.gender}\nLocation: ${formData.targetAudience.location}\nProblems they face: ${formData.targetAudience.problems}`);
-addSection('🎬 Niche & Category', `Category: ${formData.category}\nSpecific Niche: ${formData.nicheTopic}\nSkills: ${formData.skills}`);
-addSection('📺 Channel Details', `Name Ideas: ${formData.channelName}\nDescription: ${formData.channelDescription}\nUpload Schedule: ${formData.uploadSchedule}`);
-addSection('📱 Social Media Links', `Instagram: ${formData.socialLinks.instagram}\nTwitter: ${formData.socialLinks.twitter}\nFacebook: ${formData.socialLinks.facebook}\nWebsite: ${formData.socialLinks.website}`);
-addSection('🎥 Content Types', formData.videoTypes, true);
-addSection('📋 Content Pillars', formData.contentPillars, true);
-addSection('💰 Monetization Methods', formData.monetizationMethods, true);
-addSection('🎯 Goals & Milestones', formData.goals, true);
-addSection('🏁 Competition Analysis', formData.competition);
+addSection('My Why', formData.channelWhy);
+addSection('Target Audience', `Age: ${formData.targetAudience.age}\nGender: ${formData.targetAudience.gender}\nLocation: ${formData.targetAudience.location}\nProblems they face: ${formData.targetAudience.problems}`);
+addSection('Niche & Category', `Category: ${formData.category}\nSpecific Niche: ${formData.nicheTopic}\nSkills: ${formData.skills}`);
+addSection('Channel Details', `Name Ideas: ${formData.channelName}\nDescription: ${formData.channelDescription}\nUpload Schedule: ${formData.uploadSchedule}`);
+addSection('Social Media Links', `Instagram: ${formData.socialLinks.instagram}\nTwitter: ${formData.socialLinks.twitter}\nFacebook: ${formData.socialLinks.facebook}\nWebsite: ${formData.socialLinks.website}`);
+addSection('Content Types', formData.videoTypes, true);
+addSection('Content Pillars', formData.contentPillars, true);
+addSection('Monetization Methods', formData.monetizationMethods, true);
+addSection('Goals & Milestones', formData.goals, true);
+addSection('Competition Analysis', formData.competition);
+
 
     // Footer with Wayward branding
     const pageCount = doc.internal.getNumberOfPages();
