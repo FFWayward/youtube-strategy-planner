@@ -653,7 +653,7 @@ const YouTubeStrategyPlanner = () => {
               />
             </div>
 
-            <div className="grid md:grid-cols-2 gap-4">
+        <div className="grid md:grid-cols-2 gap-4">
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">Target Audience Age Range</label>
                 <input
@@ -661,6 +661,14 @@ const YouTubeStrategyPlanner = () => {
                   className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-400"
                   placeholder="e.g., 25-35"
                   value={formData.targetAudience.age}
+                  onChange={(e) => updateNestedData('targetAudience', 'age', e.target.value)}
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Primary Gender</label>
+                <select
+                  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-400"
+                  value={formData.targetAudience.gender}
                   onChange={(e) => updateNestedData('targetAudience', 'gender', e.target.value)}
                 >
                   <option value="">Select...</option>
