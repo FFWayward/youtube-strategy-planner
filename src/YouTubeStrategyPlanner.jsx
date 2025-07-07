@@ -611,11 +611,11 @@ const YouTubeStrategyPlanner = () => {
     addSection('Goals & Milestones', formData.goals, true);
     addSection('Competition Analysis', formData.competition);
 
-    // Add action plan sections to PDF
-    const actionPlan = generateActionPlan();
-    actionPlan.forEach(section => {
-      addSection(section.title, section.items.join('\n• '), false);
-    });
+   // Add action plan sections to PDF
+const actionPlan = generateActionPlan();
+actionPlan.forEach(section => {
+  addSection(section.title, section.items, true);
+});
 
     // Footer with Wayward branding
     const pageCount = doc.internal.getNumberOfPages();
