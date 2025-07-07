@@ -574,17 +574,24 @@ const YouTubeStrategyPlanner = () => {
       doc.setFont(undefined, 'normal');
       doc.setTextColor(17, 17, 17); // #111111
       
-      if (isArray && Array.isArray(content)) {
-        content.forEach(item => {
-          if (yPosition > 270) {
-            doc.addPage();
-            yPosition = 40;
-          }
-          const cleanItem = String(item).replace(/[^\x00-\x7F]/g, "");
-          doc.text(`• ${cleanItem}`, margin + 5, yPosition);
-          yPosition += 6;
-        });
-      } else {
+   if (isArray && Array.isArray(content)) {
+  content.forEach(item => {
+    if (yPosition > 270) {
+      doc.addPage();
+      yPosition = 40;
+    }
+    const cleanItem = String(item).replace(/[^\x00-\x7F]/g, "").replace(/"/g, "");
+    const lines = doc.splitTextToSize(`• ${cleanItem}`, pageWidth - 2 * margin - 10);
+    lines.forEach(line => {
+      if (yPosition > 270) {
+        doc.addPage();
+        yPosition = 40;
+      }
+      doc.text(line, margin + 5, yPosition);
+      yPosition += 6;
+    });
+  });
+} else {
         const cleanContent = String(content || 'Not specified').replace(/[^\x00-\x7F]/g, "");
         const lines = doc.splitTextToSize(cleanContent, pageWidth - 2 * margin);
         lines.forEach(line => {
