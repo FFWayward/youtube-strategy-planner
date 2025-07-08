@@ -877,7 +877,7 @@ actionPlan.forEach(section => {
                       }}
                       className="text-purple-500 focus:ring-purple-500"
                     />
-                    <span className="text-sm">{type}</span>
+                    <span className="text-sm text-gray-800">{type}</span>
                   </label>
                 ))}
               </div>
@@ -916,7 +916,7 @@ actionPlan.forEach(section => {
                       }}
                       className="text-purple-500 focus:ring-purple-500"
                     />
-                    <span>{method}</span>
+                    <span className="text-gray-800">{method}</span>
                   </label>
                 ))}
               </div>
@@ -950,13 +950,12 @@ actionPlan.forEach(section => {
 
             <div className="bg-blue-50 p-6 rounded-lg">
               <h3 className="text-xl font-semibold text-blue-800 mb-4">📋 Your Channel Strategy Summary</h3>
-              <div className="space-y-3 text-sm">
-                <div><strong>Niche:</strong> {formData.nicheTopic || 'Not specified'}</div>
-                <div><strong>Target Audience:</strong> {formData.targetAudience.age} year olds, {formData.targetAudience.gender}, {formData.targetAudience.location}</div>
-                <div><strong>Upload Schedule:</strong> {formData.uploadSchedule || 'Not specified'}</div>
-                <div><strong>Content Types:</strong> {formData.videoTypes.join(', ') || 'None selected'}</div>
-                <div><strong>Monetization:</strong> {formData.monetizationMethods.join(', ') || 'None selected'}</div>
-              </div>
+           <div className="space-y-3 text-sm text-gray-800">
+  <div><strong className="text-blue-800">Niche:</strong> {formData.nicheTopic || 'Not specified'}</div>
+  <div><strong className="text-blue-800">Target Audience:</strong> {formData.targetAudience.age} year olds, {formData.targetAudience.gender}, {formData.targetAudience.location}</div>
+  <div><strong className="text-blue-800">Upload Schedule:</strong> {formData.uploadSchedule || 'Not specified'}</div>
+  <div><strong className="text-blue-800">Content Types:</strong> {formData.videoTypes.join(', ') || 'None selected'}</div>
+  <div><strong className="text-blue-800">Monetization:</strong> {formData.monetizationMethods.join(', ') || 'None selected'}</div>
             </div>
 
             <div className="bg-purple-50 p-4 rounded-lg">
