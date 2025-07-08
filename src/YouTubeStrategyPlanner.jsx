@@ -1137,7 +1137,7 @@ const ContentPillarInput = ({ pillars, onAdd, onRemove }) => {
           value={newPillar}
           onChange={(e) => setNewPillar(e.target.value)}
           placeholder="e.g., Beginner workouts, Nutrition tips, etc."
-          className="flex-1 p-2 border border-gray-300 rounded focus:ring-2 focus:ring-purple-400"
+          className="flex-1 p-2 bg-purple-50 border border-purple-200 rounded focus:ring-2 focus:ring-purple-400 focus:bg-white text-gray-700 placeholder-purple-400"
           onKeyPress={(e) => e.key === 'Enter' && handleAdd()}
         />
         <button
@@ -1183,7 +1183,7 @@ const GoalInput = ({ goals, onAdd, onRemove }) => {
           value={newGoal}
           onChange={(e) => setNewGoal(e.target.value)}
           placeholder="e.g., Reach 1,000 subscribers in 6 months"
-          className="flex-1 p-2 border border-gray-300 rounded focus:ring-2 focus:ring-purple-400"
+          className="flex-1 p-2 bg-purple-50 border border-purple-200 rounded focus:ring-2 focus:ring-purple-400 focus:bg-white text-gray-700 placeholder-purple-400"
           onKeyPress={(e) => e.key === 'Enter' && handleAdd()}
         />
         <button
