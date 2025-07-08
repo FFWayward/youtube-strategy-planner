@@ -648,7 +648,7 @@ actionPlan.forEach(section => {
             <h2 className="text-2xl font-bold text-gray-800">Getting Started</h2>
             
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-semibold text-purple-600 mb-2">
                 Why do you want to start a YouTube channel? (Your "Why")
               </label>
               <textarea
@@ -662,7 +662,7 @@ actionPlan.forEach(section => {
 
         <div className="grid md:grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Target Audience Age Range</label>
+                <label className="block text-sm font-semibold text-purple-600 mb-2">Target Audience Age Range</label>
                 <input
                   type="text"
                   className="w-full p-3 bg-purple-50 border border-purple-200 rounded-lg focus:ring-2 focus:ring-purple-400 focus:bg-white text-gray-700 placeholder-purple-400"
@@ -672,7 +672,7 @@ actionPlan.forEach(section => {
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Primary Gender</label>
+                <label className="block text-sm font-semibold text-purple-600 mb-2">Primary Gender</label>
                 <select
                   className="w-full p-3 bg-purple-50 border border-purple-200 rounded-lg focus:ring-2 focus:ring-purple-400 focus:bg-white text-gray-700 placeholder-purple-400"
                   value={formData.targetAudience.gender}
@@ -687,7 +687,7 @@ actionPlan.forEach(section => {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Target Location</label>
+              <label className="block text-sm font-semibold text-purple-600 mb-2">Target Location</label>
               <input
                 type="text"
                 className="w-full p-3 bg-purple-50 border border-purple-200 rounded-lg focus:ring-2 focus:ring-purple-400 focus:bg-white text-gray-700 placeholder-purple-400"
@@ -698,7 +698,7 @@ actionPlan.forEach(section => {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">What problems does your audience face?</label>
+              <label className="block text-sm font-semibold text-purple-600 mb-2">What problems does your audience face?</label>
               <textarea
                 className="w-full p-3 bg-purple-50 border border-purple-200 rounded-lg focus:ring-2 focus:ring-purple-400 focus:bg-white text-gray-700 placeholder-purple-400"
                 rows="3"
@@ -709,7 +709,7 @@ actionPlan.forEach(section => {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Upload Schedule</label>
+              <label className="block text-sm font-semibold text-purple-600 mb-2">Upload Schedule</label>
               <select
                 className="w-full p-3 bg-purple-50 border border-purple-200 rounded-lg focus:ring-2 focus:ring-purple-400 focus:bg-white text-gray-700 placeholder-purple-400"
                 value={formData.uploadSchedule}
@@ -732,7 +732,7 @@ actionPlan.forEach(section => {
             <h2 className="text-2xl font-bold text-gray-800">Choose Your Niche</h2>
             
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">What are you good at? List your skills and expertise</label>
+              <label className="block text-sm font-semibold text-purple-600 mb-2">What are you good at? List your skills and expertise</label>
               <textarea
                 className="w-full p-3 bg-purple-50 border border-purple-200 rounded-lg focus:ring-2 focus:ring-purple-400 focus:bg-white text-gray-700 placeholder-purple-400"
                 rows="3"
@@ -743,7 +743,7 @@ actionPlan.forEach(section => {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">YouTube Category</label>
+              <label className="block text-sm font-semibold text-purple-600 mb-2">YouTube Category</label>
               <select
                 className="w-full p-3 bg-purple-50 border border-purple-200 rounded-lg focus:ring-2 focus:ring-purple-400 focus:bg-white text-gray-700 placeholder-purple-400"
                 value={formData.category}
@@ -757,7 +757,7 @@ actionPlan.forEach(section => {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Specific Niche Topic</label>
+              <label className="block text-sm font-semibold text-purple-600 mb-2">Specific Niche Topic</label>
               <input
                 type="text"
                 className="w-full p-3 bg-purple-50 border border-purple-200 rounded-lg focus:ring-2 focus:ring-purple-400 focus:bg-white text-gray-700 placeholder-purple-400"
@@ -768,7 +768,7 @@ actionPlan.forEach(section => {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Competition Analysis</label>
+              <label className="block text-sm font-semibold text-purple-600 mb-2">Competition Analysis</label>
               <textarea
                 className="w-full p-3 bg-purple-50 border border-purple-200 rounded-lg focus:ring-2 focus:ring-purple-400 focus:bg-white text-gray-700 placeholder-purple-400"
                 rows="4"
@@ -786,7 +786,7 @@ actionPlan.forEach(section => {
             <h2 className="text-2xl font-bold text-gray-800">Channel Setup</h2>
             
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Channel Name Ideas</label>
+              <label className="block text-sm font-semibold text-purple-600 mb-2">Channel Name Ideas</label>
               <input
                 type="text"
                 className="w-full p-3 bg-purple-50 border border-purple-200 rounded-lg focus:ring-2 focus:ring-purple-400 focus:bg-white text-gray-700 placeholder-purple-400"
@@ -797,7 +797,7 @@ actionPlan.forEach(section => {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Channel Description (About Section)</label>
+              <label className="block text-sm font-semibold text-purple-600 mb-2">Channel Description (About Section)</label>
               <textarea
                 className="w-full p-3 bg-purple-50 border border-purple-200 rounded-lg focus:ring-2 focus:ring-purple-400 focus:bg-white text-gray-700 placeholder-purple-400"
                 rows="4"
@@ -809,7 +809,7 @@ actionPlan.forEach(section => {
 
             <div className="grid md:grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Instagram Handle</label>
+                <label className="block text-sm font-semibold text-purple-600 mb-2">Instagram Handle</label>
                 <input
                   type="text"
                   className="w-full p-3 bg-purple-50 border border-purple-200 rounded-lg focus:ring-2 focus:ring-purple-400 focus:bg-white text-gray-700 placeholder-purple-400"
@@ -819,7 +819,7 @@ actionPlan.forEach(section => {
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">X (Twitter) Handle</label>
+                <label className="block text-sm font-semibold text-purple-600 mb-2">X (Twitter) Handle</label>
                 <input
                   type="text"
                   className="w-full p-3 bg-purple-50 border border-purple-200 rounded-lg focus:ring-2 focus:ring-purple-400 focus:bg-white text-gray-700 placeholder-purple-400"
@@ -832,7 +832,7 @@ actionPlan.forEach(section => {
 
             <div className="grid md:grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Facebook Page</label>
+                <label className="block text-sm font-semibold text-purple-600 mb-2">Facebook Page</label>
                 <input
                   type="text"
                   className="w-full p-3 bg-purple-50 border border-purple-200 rounded-lg focus:ring-2 focus:ring-purple-400 focus:bg-white text-gray-700 placeholder-purple-400"
@@ -842,7 +842,7 @@ actionPlan.forEach(section => {
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Website URL</label>
+                <label className="block text-sm font-semibold text-purple-600 mb-2">Website URL</label>
                 <input
                   type="text"
                   className="w-full p-3 bg-purple-50 border border-purple-200 rounded-lg focus:ring-2 focus:ring-purple-400 focus:bg-white text-gray-700 placeholder-purple-400"
@@ -861,7 +861,7 @@ actionPlan.forEach(section => {
             <h2 className="text-2xl font-bold text-gray-800">Content Strategy</h2>
             
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Video Types You'll Create</label>
+              <label className="block text-sm font-semibold text-purple-600 mb-2">Video Types You'll Create</label>
               <div className="grid grid-cols-2 md:grid-cols-3 gap-2 mb-4">
                 {videoTypeOptions.map(type => (
                   <label key={type} className="flex items-center space-x-2">
@@ -875,7 +875,7 @@ actionPlan.forEach(section => {
                           removeFromArray('videoTypes', formData.videoTypes.indexOf(type));
                         }
                       }}
-                      className="text-purple-500 focus:ring-purple-500"
+                      className="text-purple-500 focus:ring-purple-500 border-purple-300 rounded"
                     />
                     <span className="text-sm text-gray-800">{type}</span>
                   </label>
@@ -884,7 +884,7 @@ actionPlan.forEach(section => {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Content Pillars (3-5 main topics you'll cover)</label>
+              <label className="block text-sm font-semibold text-purple-600 mb-2">Content Pillars (3-5 main topics you'll cover)</label>
               <ContentPillarInput 
                 pillars={formData.contentPillars} 
                 onAdd={(pillar) => addToArray('contentPillars', pillar)}
@@ -900,7 +900,7 @@ actionPlan.forEach(section => {
             <h2 className="text-2xl font-bold text-gray-800">Monetization Plan</h2>
             
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Select your monetization methods</label>
+              <label className="block text-sm font-semibold text-purple-600 mb-2">Select your monetization methods</label>
               <div className="space-y-2">
                 {monetizationOptions.map(method => (
                   <label key={method} className="flex items-center space-x-2">
@@ -914,7 +914,7 @@ actionPlan.forEach(section => {
                           removeFromArray('monetizationMethods', formData.monetizationMethods.indexOf(method));
                         }
                       }}
-                      className="text-purple-500 focus:ring-purple-500"
+                      className="text-purple-500 focus:ring-purple-500 border-purple-300 rounded"
                     />
                     <span className="text-gray-800">{method}</span>
                   </label>
@@ -940,7 +940,7 @@ actionPlan.forEach(section => {
             <h2 className="text-2xl font-bold text-gray-800">Goals & Milestones</h2>
             
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Set Your Goals</label>
+              <label className="block text-sm font-semibold text-purple-600 mb-2">Set Your Goals</label>
               <GoalInput 
                 goals={formData.goals}
                 onAdd={(goal) => addToArray('goals', goal)}
