@@ -957,6 +957,7 @@ actionPlan.forEach(section => {
   <div><strong className="text-blue-800">Content Types:</strong> {formData.videoTypes.join(', ') || 'None selected'}</div>
   <div><strong className="text-blue-800">Monetization:</strong> {formData.monetizationMethods.join(', ') || 'None selected'}</div>
             </div>
+              </div>
 
             <div className="bg-purple-50 p-4 rounded-lg">
               <h3 className="font-semibold text-purple-800 mb-2">🚀 What's Next?</h3>
