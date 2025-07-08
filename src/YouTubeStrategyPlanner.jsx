@@ -109,7 +109,7 @@ const YouTubeStrategyPlanner = () => {
 
     // Universal steps everyone gets
     actionPlan.push({
-      title: "🚀 Universal First Steps (Start Here!)",
+      title: "🚀 First Things First (Start Here!)",
       items: [
         "Go to YouTube.com and create your channel with your planned name",
         "Add channel art (1280x720px) - use Canva.com for free templates",
