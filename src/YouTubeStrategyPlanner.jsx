@@ -665,7 +665,7 @@ actionPlan.forEach(section => {
                 <label className="block text-sm font-medium text-gray-700 mb-2">Target Audience Age Range</label>
                 <input
                   type="text"
-                  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-400"
+                  className="w-full p-3 bg-purple-50 border border-purple-200 rounded-lg focus:ring-2 focus:ring-purple-400 focus:bg-white text-gray-700 placeholder-purple-400"
                   placeholder="e.g., 25-35"
                   value={formData.targetAudience.age}
                   onChange={(e) => updateNestedData('targetAudience', 'age', e.target.value)}
@@ -674,7 +674,7 @@ actionPlan.forEach(section => {
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">Primary Gender</label>
                 <select
-                  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-400"
+                  className="w-full p-3 bg-purple-50 border border-purple-200 rounded-lg focus:ring-2 focus:ring-purple-400 focus:bg-white text-gray-700 placeholder-purple-400"
                   value={formData.targetAudience.gender}
                   onChange={(e) => updateNestedData('targetAudience', 'gender', e.target.value)}
                 >
@@ -690,7 +690,7 @@ actionPlan.forEach(section => {
               <label className="block text-sm font-medium text-gray-700 mb-2">Target Location</label>
               <input
                 type="text"
-                className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-400"
+                className="w-full p-3 bg-purple-50 border border-purple-200 rounded-lg focus:ring-2 focus:ring-purple-400 focus:bg-white text-gray-700 placeholder-purple-400"
                 placeholder="e.g., United States, Global, English-speaking countries"
                 value={formData.targetAudience.location}
                 onChange={(e) => updateNestedData('targetAudience', 'location', e.target.value)}
@@ -700,7 +700,7 @@ actionPlan.forEach(section => {
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">What problems does your audience face?</label>
               <textarea
-                className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-400"
+                className="w-full p-3 bg-purple-50 border border-purple-200 rounded-lg focus:ring-2 focus:ring-purple-400 focus:bg-white text-gray-700 placeholder-purple-400"
                 rows="3"
                 placeholder="Describe the main challenges your target audience faces..."
                 value={formData.targetAudience.problems}
@@ -711,7 +711,7 @@ actionPlan.forEach(section => {
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">Upload Schedule</label>
               <select
-                className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-400"
+                className="w-full p-3 bg-purple-50 border border-purple-200 rounded-lg focus:ring-2 focus:ring-purple-400 focus:bg-white text-gray-700 placeholder-purple-400"
                 value={formData.uploadSchedule}
                 onChange={(e) => updateFormData('uploadSchedule', e.target.value)}
               >
@@ -734,7 +734,7 @@ actionPlan.forEach(section => {
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">What are you good at? List your skills and expertise</label>
               <textarea
-                className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-400"
+                className="w-full p-3 bg-purple-50 border border-purple-200 rounded-lg focus:ring-2 focus:ring-purple-400 focus:bg-white text-gray-700 placeholder-purple-400"
                 rows="3"
                 placeholder="List your skills, hobbies, professional expertise..."
                 value={formData.skills}
@@ -745,7 +745,7 @@ actionPlan.forEach(section => {
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">YouTube Category</label>
               <select
-                className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-400"
+                className="w-full p-3 bg-purple-50 border border-purple-200 rounded-lg focus:ring-2 focus:ring-purple-400 focus:bg-white text-gray-700 placeholder-purple-400"
                 value={formData.category}
                 onChange={(e) => updateFormData('category', e.target.value)}
               >
@@ -760,7 +760,7 @@ actionPlan.forEach(section => {
               <label className="block text-sm font-medium text-gray-700 mb-2">Specific Niche Topic</label>
               <input
                 type="text"
-                className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-400"
+                className="w-full p-3 bg-purple-50 border border-purple-200 rounded-lg focus:ring-2 focus:ring-purple-400 focus:bg-white text-gray-700 placeholder-purple-400"
                 placeholder="e.g., Home workouts for busy moms, Tech reviews for seniors, etc."
                 value={formData.nicheTopic}
                 onChange={(e) => updateFormData('nicheTopic', e.target.value)}
@@ -770,7 +770,7 @@ actionPlan.forEach(section => {
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">Competition Analysis</label>
               <textarea
-                className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-400"
+                className="w-full p-3 bg-purple-50 border border-purple-200 rounded-lg focus:ring-2 focus:ring-purple-400 focus:bg-white text-gray-700 placeholder-purple-400"
                 rows="4"
                 placeholder="List 3-5 similar channels and what makes you different..."
                 value={formData.competition}
@@ -789,7 +789,7 @@ actionPlan.forEach(section => {
               <label className="block text-sm font-medium text-gray-700 mb-2">Channel Name Ideas</label>
               <input
                 type="text"
-                className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-400"
+                className="w-full p-3 bg-purple-50 border border-purple-200 rounded-lg focus:ring-2 focus:ring-purple-400 focus:bg-white text-gray-700 placeholder-purple-400"
                 placeholder="Keep it short, memorable, and related to your niche"
                 value={formData.channelName}
                 onChange={(e) => updateFormData('channelName', e.target.value)}
@@ -799,7 +799,7 @@ actionPlan.forEach(section => {
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">Channel Description (About Section)</label>
               <textarea
-                className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-400"
+                className="w-full p-3 bg-purple-50 border border-purple-200 rounded-lg focus:ring-2 focus:ring-purple-400 focus:bg-white text-gray-700 placeholder-purple-400"
                 rows="4"
                 placeholder="Describe what your channel is about and include relevant keywords..."
                 value={formData.channelDescription}
@@ -812,7 +812,7 @@ actionPlan.forEach(section => {
                 <label className="block text-sm font-medium text-gray-700 mb-2">Instagram Handle</label>
                 <input
                   type="text"
-                  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-400"
+                  className="w-full p-3 bg-purple-50 border border-purple-200 rounded-lg focus:ring-2 focus:ring-purple-400 focus:bg-white text-gray-700 placeholder-purple-400"
                   placeholder="@yourusername"
                   value={formData.socialLinks.instagram}
                   onChange={(e) => updateNestedData('socialLinks', 'instagram', e.target.value)}
@@ -822,7 +822,7 @@ actionPlan.forEach(section => {
                 <label className="block text-sm font-medium text-gray-700 mb-2">X (Twitter) Handle</label>
                 <input
                   type="text"
-                  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-400"
+                  className="w-full p-3 bg-purple-50 border border-purple-200 rounded-lg focus:ring-2 focus:ring-purple-400 focus:bg-white text-gray-700 placeholder-purple-400"
                   placeholder="@yourusername"
                   value={formData.socialLinks.twitter}
                   onChange={(e) => updateNestedData('socialLinks', 'twitter', e.target.value)}
@@ -835,7 +835,7 @@ actionPlan.forEach(section => {
                 <label className="block text-sm font-medium text-gray-700 mb-2">Facebook Page</label>
                 <input
                   type="text"
-                  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-400"
+                  className="w-full p-3 bg-purple-50 border border-purple-200 rounded-lg focus:ring-2 focus:ring-purple-400 focus:bg-white text-gray-700 placeholder-purple-400"
                   placeholder="facebook.com/yourpage"
                   value={formData.socialLinks.facebook}
                   onChange={(e) => updateNestedData('socialLinks', 'facebook', e.target.value)}
@@ -845,7 +845,7 @@ actionPlan.forEach(section => {
                 <label className="block text-sm font-medium text-gray-700 mb-2">Website URL</label>
                 <input
                   type="text"
-                  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-400"
+                  className="w-full p-3 bg-purple-50 border border-purple-200 rounded-lg focus:ring-2 focus:ring-purple-400 focus:bg-white text-gray-700 placeholder-purple-400"
                   placeholder="https://yourwebsite.com"
                   value={formData.socialLinks.website}
                   onChange={(e) => updateNestedData('socialLinks', 'website', e.target.value)}
