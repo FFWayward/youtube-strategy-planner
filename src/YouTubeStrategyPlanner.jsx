@@ -1050,35 +1050,44 @@ actionPlan.forEach(section => {
         <p className="text-gray-500">Plan your successful YouTube channel step by step</p>
       </div>
 
-      {/* Progress Steps */}
-      <div className="flex justify-between items-center mb-8 overflow-x-auto pb-2">
-        {steps.map((step, index) => {
-          const Icon = step.icon;
-          return (
-            <div 
-              key={index}
-              className={`flex flex-col items-center min-w-0 flex-1 ${
-                index <= currentStep ? 'text-purple-600' : 'text-gray-400'
-              }`}
-            >
+     {/* Progress Steps */}
+      <div className="mb-8 overflow-x-auto pb-2">
+        <div className="flex justify-between items-start relative min-w-full">
+          {steps.map((step, index) => {
+            const Icon = step.icon;
+            return (
               <div 
-                className={`w-10 h-10 rounded-full flex items-center justify-center mb-2 transition-colors ${
-                  index <= currentStep 
-                    ? 'bg-gradient-to-r from-purple-400 to-purple-300 text-white' 
-                    : 'bg-gray-200 text-gray-400'
+                key={index}
+                className={`flex flex-col items-center min-w-0 flex-1 relative ${
+                  index <= currentStep ? 'text-purple-600' : 'text-gray-400'
                 }`}
               >
-                <Icon size={20} />
+                <div 
+                  className={`w-10 h-10 rounded-full flex items-center justify-center mb-3 transition-colors relative z-10 ${
+                    index <= currentStep 
+                      ? 'bg-gradient-to-r from-purple-400 to-purple-300 text-white' 
+                      : 'bg-gray-200 text-gray-400'
+                  }`}
+                >
+                  <Icon size={20} />
+                </div>
+                <span className="text-xs text-center font-medium leading-tight">{step.title}</span>
+                {index < steps.length - 1 && (
+                  <div 
+                    className={`absolute top-5 left-1/2 w-full h-0.5 -translate-y-0.5 ${
+                      index < currentStep ? 'bg-gradient-to-r from-purple-400 to-purple-300' : 'bg-gray-200'
+                    }`}
+                    style={{ 
+                      marginLeft: '50%',
+                      width: 'calc(100% - 20px)',
+                      zIndex: 1
+                    }}
+                  />
+                )}
               </div>
-              <span className="text-xs text-center font-medium">{step.title}</span>
-              {index < steps.length - 1 && (
-                <div className={`h-0.5 w-full mt-2 ${
-                  index < currentStep ? 'bg-gradient-to-r from-purple-400 to-purple-300' : 'bg-gray-200'
-                }`} />
-              )}
-            </div>
-          );
-        })}
+            );
+          })}
+        </div>
       </div>
 
       {/* Form Content */}
