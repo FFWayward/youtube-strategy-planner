@@ -1072,7 +1072,7 @@ actionPlan.forEach(section => {
                   <Icon size={20} />
                 </div>
                 <span className="text-xs text-center font-medium leading-tight">{step.title}</span>
-           {index < steps.length - 1 && (
+         {index !== currentStep && (
                   <div 
                     className={`absolute top-12 left-1/2 transform -translate-x-1/2 h-0.5 w-16 ${
                       index < currentStep ? 'bg-gradient-to-r from-purple-400 to-purple-300' : 'bg-gray-200'
