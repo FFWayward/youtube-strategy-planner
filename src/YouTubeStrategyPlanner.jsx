@@ -509,12 +509,14 @@ const YouTubeStrategyPlanner = () => {
     return actionPlan;
   };
 
-  const generatePDF = async () => {
+ const generatePDF = async () => {
+  try {
     // Import jsPDF dynamically to avoid SSR issues
     const { jsPDF } = await import('jspdf');
     
     const doc = new jsPDF();
     const pageWidth = doc.internal.pageSize.width;
+    const pageHeight = doc.internal.pageSize.height;
     const margin = 20;
     let yPosition = 35;
 
@@ -554,19 +556,26 @@ const YouTubeStrategyPlanner = () => {
     doc.text(`Created: ${new Date().toLocaleDateString()}`, margin, yPosition);
     yPosition += 20;
 
-    // Helper function to add sections
-    const addSection = (title, content, isArray = false) => {
-      if (yPosition > 250) {
+    // Helper function to check if we need a new page
+    const checkNewPage = () => {
+      if (yPosition > pageHeight - 40) {
         doc.addPage();
         yPosition = 40;
+        return true;
       }
+      return false;
+    };
+
+    // Helper function to add sections
+    const addSection = (title, content, isArray = false) => {
+      checkNewPage();
       
       doc.setFontSize(14);
       doc.setFont(undefined, 'bold');
       doc.setTextColor(194, 175, 255); // Wayward purple #c2afff
       
       // Clean the title text to avoid encoding issues
-      const cleanTitle = title.replace(/[^\x00-\x7F]/g, "");
+      const cleanTitle = String(title).replace(/[^\x00-\x7F]/g, "").replace(/['"]/g, "");
       doc.text(cleanTitle, margin, yPosition);
       yPosition += 8;
       
@@ -574,31 +583,22 @@ const YouTubeStrategyPlanner = () => {
       doc.setFont(undefined, 'normal');
       doc.setTextColor(17, 17, 17); // #111111
       
-   if (isArray && Array.isArray(content)) {
-  content.forEach(item => {
-    if (yPosition > 270) {
-      doc.addPage();
-      yPosition = 40;
-    }
-    const cleanItem = String(item).replace(/[^\x00-\x7F]/g, "").replace(/"/g, "");
-    const lines = doc.splitTextToSize(`• ${cleanItem}`, pageWidth - 2 * margin - 10);
-    lines.forEach(line => {
-      if (yPosition > 270) {
-        doc.addPage();
-        yPosition = 40;
-      }
-      doc.text(line, margin + 5, yPosition);
-      yPosition += 6;
-    });
-  });
-} else {
-        const cleanContent = String(content || 'Not specified').replace(/[^\x00-\x7F]/g, "");
+      if (isArray && Array.isArray(content)) {
+        content.forEach(item => {
+          checkNewPage();
+          const cleanItem = String(item || '').replace(/[^\x00-\x7F]/g, "").replace(/['"]/g, "");
+          const lines = doc.splitTextToSize(`• ${cleanItem}`, pageWidth - 2 * margin - 10);
+          lines.forEach(line => {
+            checkNewPage();
+            doc.text(line, margin + 5, yPosition);
+            yPosition += 6;
+          });
+        });
+      } else {
+        const cleanContent = String(content || 'Not specified').replace(/[^\x00-\x7F]/g, "").replace(/['"]/g, "");
         const lines = doc.splitTextToSize(cleanContent, pageWidth - 2 * margin);
         lines.forEach(line => {
-          if (yPosition > 270) {
-            doc.addPage();
-            yPosition = 40;
-          }
+          checkNewPage();
           doc.text(line, margin, yPosition);
           yPosition += 6;
         });
@@ -606,23 +606,44 @@ const YouTubeStrategyPlanner = () => {
       yPosition += 12;
     };
 
-    // Add all sections
-    addSection('My Why', formData.channelWhy);
-    addSection('Target Audience', `Age: ${formData.targetAudience.age}\nGender: ${formData.targetAudience.gender}\nLocation: ${formData.targetAudience.location}\nProblems they face: ${formData.targetAudience.problems}`);
-    addSection('Niche & Category', `Category: ${formData.category}\nSpecific Niche: ${formData.nicheTopic}\nSkills: ${formData.skills}`);
-    addSection('Channel Details', `Name Ideas: ${formData.channelName}\nDescription: ${formData.channelDescription}\nUpload Schedule: ${formData.uploadSchedule}`);
-    addSection('Social Media Links', `Instagram: ${formData.socialLinks.instagram}\nTwitter: ${formData.socialLinks.twitter}\nFacebook: ${formData.socialLinks.facebook}\nWebsite: ${formData.socialLinks.website}`);
-    addSection('Content Types', formData.videoTypes, true);
-    addSection('Content Pillars', formData.contentPillars, true);
-    addSection('Monetization Methods', formData.monetizationMethods, true);
-    addSection('Goals & Milestones', formData.goals, true);
-    addSection('Competition Analysis', formData.competition);
+    // Add all sections with error handling
+    try {
+      addSection('My Why', formData.channelWhy);
+      addSection('Target Audience', `Age: ${formData.targetAudience.age || 'Not specified'}\nGender: ${formData.targetAudience.gender || 'Not specified'}\nLocation: ${formData.targetAudience.location || 'Not specified'}\nProblems they face: ${formData.targetAudience.problems || 'Not specified'}`);
+      addSection('Niche & Category', `Category: ${formData.category || 'Not specified'}\nSpecific Niche: ${formData.nicheTopic || 'Not specified'}\nSkills: ${formData.skills || 'Not specified'}`);
+      addSection('Channel Details', `Name Ideas: ${formData.channelName || 'Not specified'}\nDescription: ${formData.channelDescription || 'Not specified'}\nUpload Schedule: ${formData.uploadSchedule || 'Not specified'}`);
+      addSection('Social Media Links', `Instagram: ${formData.socialLinks.instagram || 'Not specified'}\nTwitter: ${formData.socialLinks.twitter || 'Not specified'}\nFacebook: ${formData.socialLinks.facebook || 'Not specified'}\nWebsite: ${formData.socialLinks.website || 'Not specified'}`);
+      
+      if (formData.videoTypes && formData.videoTypes.length > 0) {
+        addSection('Content Types', formData.videoTypes, true);
+      }
+      
+      if (formData.contentPillars && formData.contentPillars.length > 0) {
+        addSection('Content Pillars', formData.contentPillars, true);
+      }
+      
+      if (formData.monetizationMethods && formData.monetizationMethods.length > 0) {
+        addSection('Monetization Methods', formData.monetizationMethods, true);
+      }
+      
+      if (formData.goals && formData.goals.length > 0) {
+        addSection('Goals & Milestones', formData.goals, true);
+      }
+      
+      addSection('Competition Analysis', formData.competition);
 
-   // Add action plan sections to PDF
-const actionPlan = generateActionPlan();
-actionPlan.forEach(section => {
-  addSection(section.title, section.items, true);
-});
+      // Add action plan sections to PDF
+      const actionPlan = generateActionPlan();
+      actionPlan.forEach(section => {
+        if (section.items && section.items.length > 0) {
+          addSection(section.title, section.items, true);
+        }
+      });
+
+    } catch (sectionError) {
+      console.error('Error adding section to PDF:', sectionError);
+      // Continue with PDF generation even if some sections fail
+    }
 
     // Footer with Wayward branding
     const pageCount = doc.internal.getNumberOfPages();
@@ -630,15 +651,24 @@ actionPlan.forEach(section => {
       doc.setPage(i);
       doc.setFontSize(8);
       doc.setTextColor(150, 150, 150);
-      doc.text('Created with the Wayward YouTube Strategy Planner', margin, doc.internal.pageSize.height - 15);
-      doc.text('WaywardCreatorCommunity.com', margin, doc.internal.pageSize.height - 10);
+      doc.text('Created with the Wayward YouTube Strategy Planner', margin, pageHeight - 15);
+      doc.text('WaywardCreatorCommunity.com', margin, pageHeight - 10);
       doc.setTextColor(194, 175, 255); // Purple page numbers
-      doc.text(`${i} / ${pageCount}`, pageWidth - margin - 15, doc.internal.pageSize.height - 10);
+      doc.text(`${i} / ${pageCount}`, pageWidth - margin - 15, pageHeight - 10);
     }
 
+    // Generate filename
+    const channelName = formData.channelName || 'My-YouTube-Channel';
+    const cleanChannelName = channelName.replace(/[^a-zA-Z0-9-_]/g, '-');
+    
     // Download the PDF
-    doc.save(`${formData.channelName || 'My'}-YouTube-Strategy.pdf`);
-  };
+    doc.save(`${cleanChannelName}-Strategy.pdf`);
+    
+  } catch (error) {
+    console.error('PDF Generation Error:', error);
+    alert('There was an error generating your PDF. Please try again or check that all required fields are filled out.');
+  }
+};
 
   const renderStep = () => {
     switch(currentStep) {
